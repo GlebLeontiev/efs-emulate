@@ -100,7 +100,7 @@ public class TestDataGenerator {
                     .amount(netTotal)
                     .netTotal(netTotal)
                     .fundedTotal(netTotal)
-                    .prefTotal(BigDecimal.ZERO)
+                    .prefTotal(netTotal)
                     .settleAmount(netTotal)
                     .lineItems(lines)
                     .build();
