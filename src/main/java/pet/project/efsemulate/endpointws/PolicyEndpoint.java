@@ -25,6 +25,7 @@ public class PolicyEndpoint {
     @PayloadRoot(namespace = NS, localPart = "getPolicyDescriptions")
     @ResponsePayload
     public GetPolicyDescriptionsResponse getPolicyDescriptions(@RequestPayload GetPolicyDescriptionsRequest request) {
+        authService.validateClientId(request.getClientId());
         WSPolicyDescriptionArray arr = fuelCardService.getPolicyDescriptions(request.getClientId());
         GetPolicyDescriptionsResponse resp = new GetPolicyDescriptionsResponse();
         resp.setResult(arr);
@@ -34,6 +35,7 @@ public class PolicyEndpoint {
     @PayloadRoot(namespace = NS, localPart = "getPolicy")
     @ResponsePayload
     public GetPolicyResponse getPolicy(@RequestPayload GetPolicyRequest request) {
+        authService.validateClientId(request.getClientId());
         WSPolicy policy = fuelCardService.getPolicy(request.getClientId(), request.getPolicyNumber());
         GetPolicyResponse resp = new GetPolicyResponse();
         resp.setResult(policy);

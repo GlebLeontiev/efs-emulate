@@ -10,7 +10,6 @@ import pet.project.efsemulate.model.dto.LoginResponse;
 import pet.project.efsemulate.model.dto.LogoutRequest;
 import pet.project.efsemulate.model.dto.LogoutResponse;
 import pet.project.efsemulate.service.AuthService;
-import pet.project.efsemulate.service.FuelCardServiceImpl;
 
 @Endpoint
 @RequiredArgsConstructor

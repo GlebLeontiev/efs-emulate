@@ -25,6 +25,7 @@ public class LocationEndpoint {
     @PayloadRoot(namespace = NS, localPart = "searchLocation")
     @ResponsePayload
     public SearchLocationResponse searchLocation(@RequestPayload SearchLocationRequest request) {
+        authService.validateClientId(request.getClientId());
         log.info("LocationEndpoint: Rcv request to searchLocation with id {}", request.getSearch().getLocId());
         WSLocationArray arr = fuelCardService.searchLocation(request.getClientId(), request.getSearch());
         SearchLocationResponse resp = new SearchLocationResponse();

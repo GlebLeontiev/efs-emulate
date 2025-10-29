@@ -27,6 +27,7 @@ public class TransactionEndpoint {
     @PayloadRoot(namespace = NS, localPart = "getTransactions")
     @ResponsePayload
     public GetTransactionsResponse getTransactions(@RequestPayload GetTransactionsRequest request) {
+        authService.validateClientId(request.getClientId());
         XMLGregorianCalendar beg = request.getBegDate();
         XMLGregorianCalendar end = request.getEndDate();
         log.info("TransactionEndpoint: Rcv request to fetch Transactions from {} to {}", beg, end);

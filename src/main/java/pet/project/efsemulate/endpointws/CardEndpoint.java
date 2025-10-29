@@ -37,6 +37,7 @@ public class CardEndpoint {
     @PayloadRoot(namespace = NS, localPart = "setCard")
     @ResponsePayload
     public SetCardResponse setCard(@RequestPayload SetCardRequest request) {
+        authService.validateClientId(request.getClientId());
         log.info("CardEndpoint: Rcv request to setCard with number {}",
             request.getCard() != null ? request.getCard().getCardNumber() : "null");
         fuelCardService.setCard(request.getClientId(), request.getCard());
@@ -46,6 +47,7 @@ public class CardEndpoint {
     @PayloadRoot(namespace = NS, localPart = "getCardSummaries")
     @ResponsePayload
     public GetCardSummariesResponse getCardSummaries(@RequestPayload GetCardSummariesRequest request) {
+        authService.validateClientId(request.getClientId());
         log.info("CardEndpoint: Rcv request to getCardSummaries");
         WSCardSummaryArray arr = fuelCardService.getCardSummaries(request.getClientId(), request.getRequest());
         GetCardSummariesResponse resp = new GetCardSummariesResponse();

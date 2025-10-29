@@ -23,6 +23,7 @@ import service.cards.tch.com.types.arrays.com.tch.cards.model.WSTransactionArray
 
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -345,23 +346,23 @@ public class WSMapper {
     private WSTransactionLineItem toWsLineItem(TransactionLineItemEntity li) {
         if (li == null) return null;
         WSTransactionLineItem w = new WSTransactionLineItem();
-        w.setAmount(li.getAmount() != null ? li.getAmount() : 0.0);
+        w.setAmount(li.getAmount() != null ? li.getAmount().doubleValue() : 0.0);
         w.setBillingFlag(li.getBillingFlag() != null ? li.getBillingFlag() : 0);
         w.setCategory(li.getCategory());
-        w.setCmptAmount(li.getCmptAmount() != null ? li.getCmptAmount() : 0.0);
-        w.setCmptPPU(li.getCmptPPU() != null ? li.getCmptPPU() : 0.0);
-        w.setDiscAmount(li.getDiscAmount() != null ? li.getDiscAmount() : 0.0);
+        w.setCmptAmount(li.getCmptAmount() != null ? li.getCmptAmount().doubleValue() : 0.0);
+        w.setCmptPPU(li.getCmptPPU() != null ? li.getCmptPPU().doubleValue() : 0.0);
+        w.setDiscAmount(li.getDiscAmount() != null ? li.getDiscAmount().doubleValue() : 0.0);
         w.setFuelType(li.getFuelType() != null ? li.getFuelType() : 0);
         w.setGroupCategory(li.getGroupCategory());
         w.setGroupNumber(li.getGroupNumber() != null ? li.getGroupNumber() : 0);
-        w.setIssuerDeal(li.getIssuerDeal() != null ? li.getIssuerDeal() : 0.0);
-        w.setIssuerDealPPU(li.getIssuerDealPPU() != null ? li.getIssuerDealPPU() : 0.0);
+        w.setIssuerDeal(li.getIssuerDeal() != null ? li.getIssuerDeal().doubleValue() : 0.0);
+        w.setIssuerDealPPU(li.getIssuerDealPPU() != null ? li.getIssuerDealPPU().doubleValue() : 0.0);
         w.setLineNumber(li.getLineNumber() != null ? li.getLineNumber() : 0);
         w.setNumber(li.getNumber() != null ? li.getNumber() : 0);
-        w.setPpu(li.getPpu() != null ? li.getPpu() : 0.0);
+        w.setPpu(li.getPpu() != null ? li.getPpu().doubleValue() : 0.0);
         w.setProdCD(li.getProdCD());
-        w.setQuantity(li.getQuantity() != null ? li.getQuantity() : 0.0);
-        w.setRetailPPU(li.getRetailPPU() != null ? li.getRetailPPU() : 0.0);
+        w.setQuantity(li.getQuantity() != null ? li.getQuantity().doubleValue() : 0.0);
+        w.setRetailPPU(li.getRetailPPU() != null ? li.getRetailPPU().doubleValue() : 0.0);
         w.setServiceType(li.getServiceType() != null ? li.getServiceType() : 0);
         w.setUseType(li.getUseType() != null ? li.getUseType() : 0);
         return w;
@@ -370,23 +371,23 @@ public class WSMapper {
     private TransactionLineItemEntity toLineItemEntity(WSTransactionLineItem w, TransactionEntity owner) {
         if (w == null) return null;
         TransactionLineItemEntity li = TransactionLineItemEntity.builder()
-                .amount(w.getAmount())
+                .amount(BigDecimal.valueOf(w.getAmount()))
                 .billingFlag(w.getBillingFlag())
                 .category(w.getCategory())
-                .cmptAmount(w.getCmptAmount())
-                .cmptPPU(w.getCmptPPU())
-                .discAmount(w.getDiscAmount())
+                .cmptAmount(BigDecimal.valueOf(w.getCmptAmount()))
+                .cmptPPU(BigDecimal.valueOf(w.getCmptPPU()))
+                .discAmount(BigDecimal.valueOf(w.getDiscAmount()))
                 .fuelType(w.getFuelType())
                 .groupCategory(w.getGroupCategory())
                 .groupNumber(w.getGroupNumber())
-                .issuerDeal(w.getIssuerDeal())
-                .issuerDealPPU(w.getIssuerDealPPU())
+                .issuerDeal(BigDecimal.valueOf(w.getIssuerDeal()))
+                .issuerDealPPU(BigDecimal.valueOf(w.getIssuerDealPPU()))
                 .lineNumber(w.getLineNumber())
                 .number(w.getNumber())
-                .ppu(w.getPpu())
+                .ppu(BigDecimal.valueOf(w.getPpu()))
                 .prodCD(w.getProdCD())
-                .quantity(w.getQuantity())
-                .retailPPU(w.getRetailPPU())
+                .quantity(BigDecimal.valueOf(w.getQuantity()))
+                .retailPPU(BigDecimal.valueOf(w.getRetailPPU()))
                 .serviceType(w.getServiceType())
                 .useType(w.getUseType())
                 .build();
@@ -399,10 +400,11 @@ public class WSMapper {
         WSTransaction t = new WSTransaction();
 
         // Денежные итоги
-        if (e.getNetTotal() != null) t.setNetTotal(e.getNetTotal());
-        if (e.getFundedTotal() != null) t.setFundedTotal(e.getFundedTotal());
-        if (e.getPrefTotal() != null) t.setPrefTotal(e.getPrefTotal());
-        if (e.getSettleAmount() != null) t.setSettleAmount(e.getSettleAmount());
+        t.setTransactionId(Math.toIntExact(e.getId()));
+        if (e.getNetTotal() != null) t.setNetTotal(e.getNetTotal().doubleValue());
+        if (e.getFundedTotal() != null) t.setFundedTotal(e.getFundedTotal().doubleValue());
+        if (e.getPrefTotal() != null) t.setPrefTotal(e.getPrefTotal().doubleValue());
+        if (e.getSettleAmount() != null) t.setSettleAmount(e.getSettleAmount().doubleValue());
 
         // Карта и локация
         if (e.getCard() != null) t.setCardNumber(e.getCard().getCardNumber());
@@ -427,11 +429,11 @@ public class WSMapper {
         if (w == null) return null;
 
         TransactionEntity tx = TransactionEntity.builder()
-                .amount(w.getNetTotal()) // при отсутствии отдельного поля amount берём netTotal
-                .fundedTotal(w.getFundedTotal())
-                .netTotal(w.getNetTotal())
-                .prefTotal(w.getPrefTotal())
-                .settleAmount(w.getSettleAmount())
+                .amount(BigDecimal.valueOf(w.getNetTotal())) // при отсутствии отдельного поля amount берём netTotal
+                .fundedTotal(BigDecimal.valueOf(w.getFundedTotal()))
+                .netTotal(BigDecimal.valueOf(w.getNetTotal()))
+                .prefTotal(BigDecimal.valueOf(w.getPrefTotal()))
+                .settleAmount(BigDecimal.valueOf(w.getSettleAmount()))
                 .transactionDate(toOffset(w.getTransactionDate()))
                 .build();
 

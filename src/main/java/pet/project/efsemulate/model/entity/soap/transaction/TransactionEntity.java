@@ -5,6 +5,7 @@ import lombok.*;
 import pet.project.efsemulate.model.entity.soap.LocationEntity;
 import pet.project.efsemulate.model.entity.soap.card.CardEntity;
 
+import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -22,19 +23,19 @@ public class TransactionEntity {
     private Long id;
 
     @Column(name = "amount")
-    private Double amount;
+    private BigDecimal amount;
 
     @Column(name = "funded_total")
-    private Double fundedTotal;
+    private BigDecimal fundedTotal;
 
     @Column(name = "net_total")
-    private Double netTotal;
+    private BigDecimal netTotal;
 
     @Column(name = "pref_total")
-    private Double prefTotal;
+    private BigDecimal prefTotal;
 
     @Column(name = "settle_amount")
-    private Double settleAmount;
+    private BigDecimal settleAmount;
 
     @Column(name = "transaction_date")
     private ZonedDateTime transactionDate;

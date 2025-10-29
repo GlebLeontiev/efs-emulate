@@ -3,6 +3,8 @@ package pet.project.efsemulate.model.entity.soap.transaction;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "transaction_line_items")
 @Getter
@@ -21,7 +23,7 @@ public class TransactionLineItemEntity {
     private TransactionEntity transaction;
 
     @Column(name = "amount")
-    private Double amount;
+    private BigDecimal amount;
 
     @Column(name = "billing_flag")
     private Integer billingFlag;
@@ -30,13 +32,13 @@ public class TransactionLineItemEntity {
     private String category;
 
     @Column(name = "cmpt_amount")
-    private Double cmptAmount;
+    private BigDecimal cmptAmount;
 
     @Column(name = "cmpt_ppu")
-    private Double cmptPPU;
+    private BigDecimal cmptPPU;
 
     @Column(name = "disc_amount")
-    private Double discAmount;
+    private BigDecimal discAmount;
 
     @Column(name = "fuel_type")
     private Integer fuelType;
@@ -48,10 +50,10 @@ public class TransactionLineItemEntity {
     private Integer groupNumber;
 
     @Column(name = "issuer_deal")
-    private Double issuerDeal;
+    private BigDecimal issuerDeal;
 
     @Column(name = "issuer_deal_ppu")
-    private Double issuerDealPPU;
+    private BigDecimal issuerDealPPU;
 
     @Column(name = "line_number")
     private Integer lineNumber;
@@ -60,16 +62,16 @@ public class TransactionLineItemEntity {
     private Integer number;
 
     @Column(name = "ppu")
-    private Double ppu;
+    private BigDecimal ppu;
 
     @Column(name = "prod_cd")
     private String prodCD;
 
     @Column(name = "quantity")
-    private Double quantity;
+    private BigDecimal quantity;
 
     @Column(name = "retail_ppu")
-    private Double retailPPU;
+    private BigDecimal retailPPU;
 
     @Column(name = "service_type")
     private Integer serviceType;

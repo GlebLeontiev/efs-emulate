@@ -56,13 +56,13 @@ public class TestDataGenerator {
                     useType = 1;
                 }
 
-                BigDecimal quantity = randomBigDecimal(5.0, 180.0).setScale(2, RoundingMode.HALF_UP);
-                BigDecimal retailPPU = randomBigDecimal(2.0, 6.0).setScale(2, RoundingMode.HALF_UP);
+                BigDecimal quantity = randomBigDecimal(5.0, 180.0).setScale(2, RoundingMode.HALF_EVEN);
+                BigDecimal retailPPU = randomBigDecimal(2.0, 6.0).setScale(2, RoundingMode.HALF_EVEN);
                 BigDecimal gross = quantity.multiply(retailPPU); // quantity * retail_ppu
-                BigDecimal discount = gross.multiply(randomBigDecimal(0.00, 0.20)).setScale(2, RoundingMode.HALF_UP);
-                BigDecimal amount = gross.subtract(discount).setScale(2, RoundingMode.HALF_UP);
+                BigDecimal discount = gross.multiply(randomBigDecimal(0.05, 0.20)).setScale(2, RoundingMode.HALF_EVEN);
+                BigDecimal amount = gross.subtract(discount).setScale(2, RoundingMode.HALF_EVEN);
                 BigDecimal ppu = quantity.compareTo(BigDecimal.ZERO) > 0
-                        ? amount.divide(quantity, 4, RoundingMode.HALF_UP)
+                        ? amount.divide(quantity, 4, RoundingMode.HALF_EVEN)
                         : BigDecimal.ZERO;
 
                 boolean isFuel = useType != 0;
@@ -78,15 +78,15 @@ public class TestDataGenerator {
                         .serviceType(isFuel ? 0 : 1)
                         .useType(useType)
                         .prodCD(isFuel ? "DIESEL" : "SERVICE")
-                        .quantity(quantity.doubleValue())
-                        .retailPPU(retailPPU.doubleValue())
-                        .ppu(ppu.doubleValue())
-                        .discAmount(discount.doubleValue())
-                        .amount(amount.doubleValue()) // сумма без скидки disc_amount
-                        .issuerDeal(0.0)
-                        .issuerDealPPU(0.0)
-                        .cmptAmount(0.0)
-                        .cmptPPU(0.0)
+                        .quantity(quantity)
+                        .retailPPU(retailPPU)
+                        .ppu(ppu)
+                        .discAmount(discount)
+                        .amount(amount) // сумма без скидки disc_amount
+                        .issuerDeal(BigDecimal.ZERO)
+                        .issuerDealPPU(BigDecimal.ZERO)
+                        .cmptAmount(BigDecimal.ZERO)
+                        .cmptPPU(BigDecimal.ZERO)
                         .build();
 
                 lines.add(line);
@@ -97,11 +97,11 @@ public class TestDataGenerator {
                     .card(card)
                     .location(location)
                     .transactionDate(java.time.ZonedDateTime.now())
-                    .amount(netTotal.doubleValue())
-                    .netTotal(netTotal.doubleValue())
-                    .fundedTotal(netTotal.doubleValue())
-                    .prefTotal(0.0)
-                    .settleAmount(netTotal.doubleValue())
+                    .amount(netTotal)
+                    .netTotal(netTotal)
+                    .fundedTotal(netTotal)
+                    .prefTotal(BigDecimal.ZERO)
+                    .settleAmount(netTotal)
                     .lineItems(lines)
                     .build();
 
