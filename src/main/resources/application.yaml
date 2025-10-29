@@ -1,0 +1,20 @@
+server:
+  port: 8090
+
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/efs-emulate}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+  jpa:
+    hibernate:
+      ddl-auto:
+    open-in-view: false
+
+scheduler:
+  initial-delay: 60000
+  fixed-rate: 600000
+

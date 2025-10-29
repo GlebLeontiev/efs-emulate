@@ -1,0 +1,44 @@
+services:
+  postgres:
+    image: postgres:17.0
+    container_name: efs-postgres
+    environment:
+      POSTGRES_DB: efs-emulate
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD:
+    ports:
+      - "5129:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - backend
+
+  app:
+    build: .
+    container_name: efs-api-emulator
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/efs-emulate
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD:
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    networks:
+      - backend
+
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  pgdata:

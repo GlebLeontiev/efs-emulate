@@ -1,0 +1,10 @@
+package pet.project.efsemulate.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import pet.project.efsemulate.model.entity.User;
+
+import java.util.Optional;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByNameAndPassword(String name, String password);
+}
