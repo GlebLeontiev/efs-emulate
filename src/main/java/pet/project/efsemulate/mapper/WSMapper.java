@@ -84,6 +84,7 @@ public class WSMapper {
             }
             h.setStatus(e.getHeader().getStatus());
             h.setLastUsedDate(toXmlCal(e.getHeader().getLastUsedDate()));
+            h.setLastTransaction(e.getHeader().getLastTransaction());
             ws.setHeader(h);
         }
 
@@ -139,6 +140,7 @@ public class WSMapper {
                     .companyXRef(ws.getHeader().getCompanyXRef())
                     .policyNumber(ws.getHeader().getPolicyNumber())
                     .status(ws.getHeader().getStatus())
+                    .lastTransaction(ws.getHeader().getLastTransaction())
                     .lastUsedDate(toOffset(ws.getHeader().getLastUsedDate()))
                     .build();
             card.setHeader(h);
