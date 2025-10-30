@@ -16,6 +16,9 @@ public class CardHeader {
     @Column(name = "policy_number")
     private Integer policyNumber;
 
+    @Column(name = "last_transaction")
+    private Integer lastTransaction;
+
     @Column(name = "status")
     private String status;
 

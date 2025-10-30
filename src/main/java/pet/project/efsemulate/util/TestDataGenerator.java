@@ -11,6 +11,7 @@ import pet.project.efsemulate.model.entity.soap.LocationEntity;
 import pet.project.efsemulate.model.entity.soap.card.CardEntity;
 import pet.project.efsemulate.model.entity.soap.transaction.TransactionEntity;
 import pet.project.efsemulate.model.entity.soap.transaction.TransactionLineItemEntity;
+import pet.project.efsemulate.repository.CardRepository;
 import pet.project.efsemulate.repository.LocationRepository;
 import pet.project.efsemulate.repository.TransactionLineRepository;
 import pet.project.efsemulate.repository.TransactionRepository;
@@ -29,15 +30,15 @@ public class TestDataGenerator {
     private static final Random random = new Random();
     private static final Logger log = LoggerFactory.getLogger(TestDataGenerator.class);
     private final AtomicLong atomicInteger = new AtomicLong();
-    private final LocationRepository fuelCardRepository;
+    private final LocationRepository locationRepository;
     private final TransactionRepository transactionRepository;
-    private final TransactionLineRepository transactionLineRepository;
+    private final CardRepository cardRepository;
 
     @Transactional
     public void generateTransactionsByFuelCard(List<CardEntity> fuelCards) {
         if (fuelCards == null || fuelCards.isEmpty()) return;
 
-        List<LocationEntity> locations = fuelCardRepository.findAll();
+        List<LocationEntity> locations = locationRepository.findAll();
         if (locations.isEmpty()) return;
 
         List<TransactionEntity> transactionsToSave = new ArrayList<>();
@@ -107,11 +108,13 @@ public class TestDataGenerator {
 
             for (TransactionLineItemEntity li : lines) li.setTransaction(tx);
 
+            TransactionEntity save = transactionRepository.save(tx);
+            card.getHeader().setLastTransaction(Math.toIntExact(save.getId()));
+            cardRepository.save(card);
+
             transactionsToSave.add(tx);
             allLines.addAll(lines);
         }
-
-        transactionRepository.saveAll(transactionsToSave);
 
         log.info("TestDataGenerator: created {} transactions and {} line items",
                 transactionsToSave.size(), allLines.size());
