@@ -57,10 +57,10 @@ public class TestDataGenerator {
                     useType = 1;
                 }
 
-                BigDecimal quantity = randomBigDecimal(5.0, 180.0).setScale(2, RoundingMode.HALF_EVEN);
-                BigDecimal retailPPU = randomBigDecimal(2.0, 6.0).setScale(2, RoundingMode.HALF_EVEN);
+                BigDecimal quantity = randomBigDecimal(5.0, 150.0).setScale(2, RoundingMode.HALF_EVEN);
+                BigDecimal retailPPU = randomBigDecimal(1.1, 2.9).setScale(2, RoundingMode.HALF_EVEN);
                 BigDecimal gross = quantity.multiply(retailPPU); // quantity * retail_ppu
-                BigDecimal discount = gross.multiply(randomBigDecimal(0.05, 0.20)).setScale(2, RoundingMode.HALF_EVEN);
+                BigDecimal discount = gross.multiply(randomBigDecimal(0.05, 0.35)).setScale(2, RoundingMode.HALF_EVEN);
                 BigDecimal amount = gross.subtract(discount).setScale(2, RoundingMode.HALF_EVEN);
                 BigDecimal ppu = quantity.compareTo(BigDecimal.ZERO) > 0
                         ? amount.divide(quantity, 4, RoundingMode.HALF_EVEN)

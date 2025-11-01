@@ -16,5 +16,5 @@ spring:
 
 scheduler:
   initial-delay: 60000
-  fixed-rate: 600000
+  fixed-rate: 900000
 
